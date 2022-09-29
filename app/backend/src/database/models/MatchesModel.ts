@@ -1,4 +1,4 @@
-import { Model, INTEGER, DATE, BOOLEAN } from 'sequelize';
+import { Model, INTEGER, BOOLEAN } from 'sequelize';
 import db from '.';
 import Team from './TeamsModel';
 
@@ -42,7 +42,7 @@ Match.init({
   sequelize: db,
   modelName: 'matches',
   underscored: true,
-  timestamps: false
+  timestamps: false,
 });
 
 Match.belongsTo(Team, { foreignKey: 'home_team', as: 'homeTeam' });
