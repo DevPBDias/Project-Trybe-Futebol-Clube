@@ -9,41 +9,43 @@ module.exports = {
         autoIncrement: true,
       },
       home_team: {
-        type: Sequelize.STRING,
+        type: Sequelize.INTEGER,
         allowNull: false,
+        foreingKey: true,
+        References: {
+          model: 'teams',
+          key: 'id',
+        },
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
       },
       home_team_goals: {
         type: Sequelize.INTEGER,
         allowNull: false,
       },
       away_team: {
-        type: Sequelize.STRING,
+        type: Sequelize.INTEGER,
         allowNull: false,
+        foreingKey: true,
+        References: {
+          model: 'teams',
+          key: 'id',
+        },
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
       },
       away_team_goals: {
         type: Sequelize.INTEGER,
         allowNull: false,
       },
       in_progress: {
-        type: Sequelize.STRING,
+        type: Sequelize.INTEGER,
         allowNull: false,
       },
-      createdAt: {
-        allowNull: false,
-        type: Sequelize.DATE,
-        field: 'created_at',
-        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
-      },
-      updatedAt: {
-        allowNull: false,
-        type: Sequelize.DATE,
-        field: 'updated_at',
-        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
-      }
     })
   },
 
   async down (queryInterface, Sequelize) {
-    await queryInterface.dropTable('vets');
+    await queryInterface.dropTable('matches');
   }
 };

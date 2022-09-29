@@ -1,36 +1,28 @@
 import { Model, STRING, INTEGER, DATE } from 'sequelize';
 import db from '.';
 
-class Teams extends Model {
+class Team extends Model {
   id!: number;
-  team_name!: string;
-  createdAt!: Date;
-  updatedAt!: Date;
+  teamName!: string;
 }
 
-Teams.init({
+Team.init({
   id: {
     type: INTEGER,
     allowNull: false,
     primaryKey: true,
     autoIncrement: true,
   },
-  team_name: {
+  teamName: {
     type: STRING,
     allowNull: false,
-  },
-  createdAt: {
-    type: DATE,
-    allowNull: false,
-  },
-  updatedAt: {
-    type: DATE,
-    allowNull: false,
+    field: 'team_name',
   },
 }, {
   sequelize: db,
   modelName: 'teams',
   underscored: true,
+  timestamps: false
 });
 
-export default Teams;
+export default Team;
