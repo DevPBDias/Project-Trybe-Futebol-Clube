@@ -1,18 +1,18 @@
 import * as express from 'express';
-import loginRoute from './database/routes/loginRoute';
+import httpErrorMiddleware from './database/middlewares/ErrorMiddleware';
+import routers from './database/routes/Routers';
 
 class App {
   public app: express.Express;
-  private _loginRoute = loginRoute;
 
   constructor() {
     this.app = express();
-    this._loginRoute = loginRoute;
     this.config();
 
     // Não remover essa rota
     this.app.get('/', (req, res) => res.json({ ok: true }));
-    this.app.use('/login', this._loginRoute.route);
+    this.app.use(routers);
+    this.app.use(httpErrorMiddleware);
   }
 
   private config():void {
