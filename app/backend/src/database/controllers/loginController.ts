@@ -1,4 +1,4 @@
-import { StatusCodes } from 'http-status-codes';
+// import { StatusCodes } from 'http-status-codes';
 import { Request, Response } from 'express';
 import LoginService from '../services/loginService';
 
@@ -6,14 +6,13 @@ class loginController {
   constructor(private _service = new LoginService()) {}
 
   public async loginToken(req: Request, res: Response) {
-    const { email, password } = req.body;
+    const { email } = req.body;
 
     const token = await this._service.login(email);
-    if (!email || !password) {
-      return res.status(StatusCodes.BAD_REQUEST).json({ message: 'All fields must be filled' });
+    if (token === null) {
+      return res.status(401).json({ message: 'Incorrect email or password' });
     }
-
-    return res.status(StatusCodes.OK).json({ token });
+    return res.status(200).json({ token });
   }
 }
 
