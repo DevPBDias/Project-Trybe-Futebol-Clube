@@ -2,8 +2,8 @@ import { Model, STRING, INTEGER } from 'sequelize';
 import db from '.';
 
 class Team extends Model {
-  id!: number;
-  teamName!: string;
+  id?: number;
+  teamName: string;
 }
 
 Team.init({
