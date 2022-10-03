@@ -75,7 +75,7 @@ const teams = [
   ]
 
 describe('/teams', () => {
-  describe('GET', () => {
+  describe('GET findAll', () => {
 
     before(() => {
       Sinon.stub(Team, 'findAll').resolves(teams as Team[])
@@ -91,6 +91,24 @@ describe('/teams', () => {
       expect(response).to.be.json;
       expect(response.body).to.deep.equal(teams);
       expect(response.body).to.be.an('array');
+    });
+  });
+  describe('GET findOne', () => {
+
+    before(() => {
+      Sinon.stub(Team, 'findOne').resolves(teams[0] as Team)
+    });
+
+    after(() => {
+      Sinon.restore();
+    });
+
+    it('Deve retornar todos os times', async () => {
+      const response = await request(app).get('/teams/1');
+      expect(response).to.have.status(200);
+      expect(response).to.be.json;
+      expect(response.body).to.deep.equal(teams[0]);
+      expect(response.body).to.be.an('object');
     });
   });
 

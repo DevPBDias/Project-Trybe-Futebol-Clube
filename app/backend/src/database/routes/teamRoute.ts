@@ -10,4 +10,9 @@ route.get(
   (req, res) => teamController.getTeams(req, res),
 );
 
+route.get(
+  '/:id',
+  (req, res) => teamController.getOneTeam(req, res),
+);
+
 export default route;

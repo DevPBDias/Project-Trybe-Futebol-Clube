@@ -9,6 +9,13 @@ class teamService {
 
     return teams;
   }
+
+  public async getOneTeam(id: number) {
+    const teams = await this.teamsModel.findOne({ where: { id } });
+    if (!teams) return null;
+
+    return teams;
+  }
 }
 
 export default teamService;
