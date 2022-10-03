@@ -1,6 +1,7 @@
-// import { StatusCodes } from 'http-status-codes';
 import { Request, Response } from 'express';
 import LoginService from '../services/loginService';
+
+const MESSAGE = 'Incorrect email or password';
 
 class loginController {
   constructor(private _service = new LoginService()) {}
@@ -10,7 +11,7 @@ class loginController {
 
     const token = await this._service.login(email);
     if (token === null) {
-      return res.status(401).json({ message: 'Incorrect email or password' });
+      return res.status(401).json({ message: MESSAGE });
     }
     return res.status(200).json({ token });
   }
