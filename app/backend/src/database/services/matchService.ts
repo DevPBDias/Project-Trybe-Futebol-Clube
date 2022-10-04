@@ -30,6 +30,21 @@ class MatchService {
     return result;
   }
 
+  public async getMatchesInProgress(inProgress: boolean) {
+    const result = await this.matchModel.findAll({ where: { inProgress },
+      include: [{ model: Team,
+        as: 'teamHome',
+        attributes: { exclude: ['id'] },
+      }, { model: Team,
+        as: 'teamAway',
+        attributes: { exclude: ['id'] },
+      }],
+    });
+    if (!result) return null;
+
+    return result;
+  }
+
   public async verifyToken(authorization:string) {
     const { email } = verify(authorization, JWT_SECRET) as IEmail;
     const user = await this.userModel.findOne({ where: { email } });
