@@ -93,7 +93,7 @@ describe('/teams', () => {
       expect(response.body).to.be.an('array');
     });
   });
-  describe('GET findOne', () => {
+  describe('GET /id findOne', () => {
 
     before(() => {
       Sinon.stub(Team, 'findOne').resolves(teams[0] as Team)

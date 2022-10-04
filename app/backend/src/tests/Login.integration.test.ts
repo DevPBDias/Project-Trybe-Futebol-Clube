@@ -8,8 +8,8 @@ chai.use(chaiHttp);
 const { expect, request } = chai;
 
 const userLogin = {
-  email: 'teste@teste.com',
-  password: 'senha123'
+  email: 'admin@admin.com',
+  password: 'secret_admin'
 }
 
 const emptyLogin = {
@@ -24,7 +24,6 @@ const invalidLogin = {
 
 describe('/login', () => {
   describe('POST', () => {
-
     before(() => {
       Sinon.stub(UserModel, 'findOne').resolves(userLogin as UserModel)
     });
@@ -35,6 +34,8 @@ describe('/login', () => {
 
     it('Deve efetuar um login com sucesso e gerar um token', async () => {
       const response = await request(app).post('/login').send(userLogin);
+      console.log(response.body);
+      
       expect(response).to.have.status(200);
       expect(response).to.be.json;
       expect(response.body).to.have.property('token');
@@ -54,6 +55,43 @@ describe('/login', () => {
       expect(response).to.be.json;
       expect(response.body).to.have.property('message');
       expect(response.body.message).to.be.equal('Incorrect email or password');
+    });
+  });
+
+  describe('GET /validate', () => {
+
+    const user = [
+      {
+        username: 'Admin',
+        role: 'admin',
+        email: 'admin@admin.com',
+        password: '$2a$08$xi.Hxk1czAO0nZR..B393u10aED0RQ1N3PAEXQ7HxtLjKPEZBu.PW'
+      },
+      {
+        username: 'User',
+        role: 'user',
+        email: 'user@user.com',
+        password: '$2a$08$Y8Abi8jXvsXyqm.rmp0B.uQBA5qUz7T6Ghlg/CvVr/gLxYj5UAZVO', 
+      },
+    ]
+
+    before(() => {
+      Sinon.stub(UserModel, 'findOne').resolves(user[0] as UserModel)
+    });
+
+    after(() => {
+      Sinon.restore();
+    });
+
+    it('Deve validar o token', async () => {
+      const response = await request(app).get('/login/validate');
+      console.log(response.body);
+      
+      expect(response).to.have.status(200);
+      expect(response).to.be.json;
+      expect(response.body).to.have.property('role');
+      expect(response.body).to.deep.equal(user[0].role);
+      expect(response.body).to.be.an('object');
     });
   });
 

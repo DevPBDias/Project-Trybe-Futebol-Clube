@@ -1,7 +1,8 @@
-import { sign } from 'jsonwebtoken';
+import { verify } from 'jsonwebtoken';
+import { IEmail } from '../interfaces/Login.interfaces';
 import UserModel from '../models/UsersModel';
 
-const JWT_SECRET = 'JWT_SECRET';
+const JWT_SECRET = process.env.JWT_SECRET || 'JWT_SECRET';
 
 class LoginService {
   constructor(private userModel = UserModel) { }
@@ -9,8 +10,13 @@ class LoginService {
   public async login(email: string) {
     const user = await this.userModel.findOne({ where: { email } });
     if (!user) return null;
-    const token = sign({ email }, JWT_SECRET);
-    return token;
+    return user;
+  }
+
+  public async verifyToken(authorization:string) {
+    const { email } = verify(authorization, JWT_SECRET) as IEmail;
+    const user = await this.userModel.findOne({ where: { email } });
+    return user;
   }
 }
 

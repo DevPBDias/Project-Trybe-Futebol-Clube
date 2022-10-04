@@ -13,4 +13,9 @@ route.post(
   (req, res) => loginController.loginToken(req, res),
 );
 
+route.get(
+  '/validate',
+  (req, res) => loginController.AuthToken(req, res),
+);
+
 export default route;
