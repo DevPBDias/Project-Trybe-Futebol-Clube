@@ -6,7 +6,7 @@ import LoginService from '../services/loginService';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'JWT_SECRET';
 const JWT_OPTIONS: SignOptions = {
-  expiresIn: '15m',
+  expiresIn: '6d',
   algorithm: 'HS256',
 };
 

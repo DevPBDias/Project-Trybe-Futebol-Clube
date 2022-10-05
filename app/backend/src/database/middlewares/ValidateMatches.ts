@@ -17,7 +17,7 @@ const validateTeam = async (req: Request, res: Response, next: NextFunction) => 
   const awayTeamName = await TeamsModel.findOne({ where: { id: awayTeam } });
 
   if (!homeTeamName || !awayTeamName) {
-    return res.status(401)
+    return res.status(404)
       .json({ message: 'There is no team with such id!' });
   }
   next();

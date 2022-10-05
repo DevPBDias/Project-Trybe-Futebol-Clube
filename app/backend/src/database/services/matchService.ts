@@ -1,13 +1,8 @@
-import { verify } from 'jsonwebtoken';
-import { IEmail } from '../interfaces/Login.interfaces';
 import MatchModel from '../models/MatchesModel';
 import Team from '../models/TeamsModel';
-import UserModel from '../models/UsersModel';
-
-const JWT_SECRET = process.env.JWT_SECRET || 'JWT_SECRET';
 
 class MatchService {
-  constructor(private matchModel = MatchModel, private userModel = UserModel) {
+  constructor(private matchModel = MatchModel) {
   }
 
   public async createMatch(match: MatchModel) {
@@ -41,14 +36,13 @@ class MatchService {
       }],
     });
     if (!result) return null;
-
     return result;
   }
 
-  public async verifyToken(authorization:string) {
-    const { email } = verify(authorization, JWT_SECRET) as IEmail;
-    const user = await this.userModel.findOne({ where: { email } });
-    return user;
+  public async updateMatch(id: number) {
+    const result = await this.matchModel.update({ inProgress: false }, { where: { id } });
+    if (!result) return null;
+    return result;
   }
 }
 
