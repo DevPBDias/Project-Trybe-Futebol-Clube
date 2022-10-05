@@ -1,16 +1,19 @@
 import { Request, Response } from 'express';
 import Match from '../models/MatchesModel';
 import MatchService from '../services/matchService';
+import LoginService from '../services/loginService';
 
 class MatchController {
-  constructor(private _service = new MatchService()) {}
+  constructor(private _service = new MatchService(), private _login = new LoginService()) {}
 
   public async createMatch(req: Request, res: Response) {
     const match = req.body as Match;
+    const { authorization } = req.headers;
     const createdMatch = await this._service.createMatch(match);
-    if (!createdMatch) {
+    if (!authorization) {
       return res.status(401).json({ message: 'Token must be a valid token' });
     }
+    await this._login.verifyToken(authorization);
 
     return res.status(201).json(createdMatch);
   }
