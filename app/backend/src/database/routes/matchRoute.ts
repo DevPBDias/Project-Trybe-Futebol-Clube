@@ -23,8 +23,6 @@ route.get(
 route.patch(
   '/:id/finish',
   validateToken,
-  ValidateMatches.validateMatch,
-  ValidateMatches.validateTeam,
   (req, res) => matchController.updateMatch(req, res),
 );
 
