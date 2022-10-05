@@ -44,6 +44,13 @@ class MatchService {
     if (!result) return null;
     return result;
   }
+
+  public async updateResult(id: number, homeTeamGoals: number, awayTeamGoals: number) {
+    const result = await this.matchModel
+      .update({ homeTeamGoals, awayTeamGoals }, { where: { id } });
+    if (!result) return null;
+    return result;
+  }
 }
 
 export default MatchService;

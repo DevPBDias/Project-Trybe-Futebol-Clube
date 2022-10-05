@@ -26,4 +26,9 @@ route.patch(
   (req, res) => matchController.updateMatch(req, res),
 );
 
+route.patch(
+  '/:id',
+  (req, res) => matchController.updateResult(req, res),
+);
+
 export default route;
