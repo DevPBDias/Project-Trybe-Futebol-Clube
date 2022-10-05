@@ -25,7 +25,7 @@ class MatchController {
       return res.status(401).json({ message: 'Match is not finished' });
     }
 
-    return res.status(201).json({ message: 'Finished' });
+    return res.status(200).json({ message: 'Finished' });
   }
 }
 
