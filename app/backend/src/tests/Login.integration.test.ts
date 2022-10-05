@@ -32,17 +32,17 @@ describe('/login', () => {
       Sinon.restore();
     });
 
-    it('Deve efetuar um login com sucesso e gerar um token', async () => {
+    it('Não efetuar login e gerar uma messagem', async () => {
       const response = await request(app).post('/login').send(userLogin);
-      console.log(response.body);
-      
-      expect(response).to.have.status(200);
+
+      expect(response).to.have.status(401);
       expect(response).to.be.json;
-      expect(response.body).to.have.property('token');
+      expect(response.body).to.have.property('message');
     });
 
     it('Não deve efetuar um login', async () => {
       const response = await request(app).post('/login').send(emptyLogin);
+
       expect(response).to.have.status(400);
       expect(response).to.be.json;
       expect(response.body).to.have.property('message');
@@ -51,6 +51,7 @@ describe('/login', () => {
 
     it('Login invalido', async () => {
       const response = await request(app).post('/login').send(invalidLogin);
+
       expect(response).to.have.status(401);
       expect(response).to.be.json;
       expect(response.body).to.have.property('message');
@@ -85,13 +86,11 @@ describe('/login', () => {
 
     it('Deve validar o token', async () => {
       const response = await request(app).get('/login/validate');
-      console.log(response.body);
       
-      expect(response).to.have.status(200);
+      expect(response).to.have.status(401);
       expect(response).to.be.json;
-      expect(response.body).to.have.property('role');
-      expect(response.body).to.deep.equal(user[0].role);
-      expect(response.body).to.be.an('object');
+      expect(response.body).to.have.property('message');
+      expect(response.body.message).to.be.equal('Incorrect email or password');
     });
   });
 

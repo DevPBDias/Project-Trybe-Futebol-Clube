@@ -10,9 +10,8 @@ const validateToken = async (req: Request, res: Response, next: NextFunction) =>
   if (!decoded) {
     return res.status(401).json({ message: 'Token must be a valid token' });
   }
-  console.log(decoded);
   const { email } = decoded as IEmail;
-  const user = await userModel.findOne({ where: { email }, raw: true });
+  const user = await userModel.findOne({ where: { email } });
   if (!user) {
     return res.status(401).json({ message: 'Token must be a valid token' });
   }
