@@ -38,6 +38,7 @@ describe('/login', () => {
       expect(response).to.have.status(401);
       expect(response).to.be.json;
       expect(response.body).to.have.property('message');
+      expect(response.body.message).to.be.equal('Incorrect email or password');
     });
 
     it('Não deve efetuar um login', async () => {
