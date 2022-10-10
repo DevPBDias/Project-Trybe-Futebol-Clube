@@ -6,9 +6,7 @@ export default class HomeBoardService {
   constructor(private matchModel = Match, private teamModel = Team) {}
 
   public async homeTeam(): Promise<Match[]> {
-    const matches = await this.matchModel.findAll({ where: { inProgress: false },
-      include: { model: Team, attributes: { exclude: ['id'] },
-      } });
+    const matches = await this.matchModel.findAll({ where: { inProgress: false } });
     return matches;
   }
 
@@ -94,11 +92,11 @@ export default class HomeBoardService {
     return goalsBalance;
   }
 
-  public async teamsEfficiency(): Promise<number[]> {
+  public async teamsEfficiency(): Promise<string[]> {
     const teamPoints = await this.teamsPoint();
     const games = await this.homeGamesByTeams();
     const efficiency = teamPoints.map((points, index) =>
-      Number((points / ((games[index] * 3) / 100)).toFixed(2)));
+      (points / ((games[index] * 3) / 100)).toFixed(2));
     return efficiency;
   }
 
